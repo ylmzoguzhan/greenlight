@@ -67,6 +67,7 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst any
 			}
 			return fmt.Errorf("body contains incorrect JSON type (at character %d)", unmarshalTypeError.Offset)
 		case errors.Is(err, io.EOF):
+			fmt.Printf("Ham Hata: %v\n", err)
 			return errors.New("body must not be empty")
 		case strings.HasPrefix(err.Error(), "json: unknown field "):
 			fieldName := strings.TrimPrefix(err.Error(), "json: unknown field ")
@@ -76,6 +77,7 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst any
 		case errors.As(err, &invalidUnmarshalError):
 			panic(err)
 		default:
+			fmt.Printf("Ham Hata: %v\n", err)
 			return err
 		}
 	}
